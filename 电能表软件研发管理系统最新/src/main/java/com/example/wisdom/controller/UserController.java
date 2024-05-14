@@ -4,6 +4,7 @@ package com.example.wisdom.controller;
 import com.example.wisdom.entity.CustomResponse;
 import com.example.wisdom.entity.Role;
 import com.example.wisdom.entity.User;
+import com.example.wisdom.entity.UserRole;
 import com.example.wisdom.mapper.RoleMapper;
 import com.example.wisdom.mapper.UserMapper;
 import com.example.wisdom.mapper.UserRoleMapper;
@@ -72,8 +73,8 @@ public class UserController {
 
     @GetMapping("/user/role")
     public CustomResponse getRoleIdByUserId(@RequestParam("userId")int id) {
-        int roleId= userRoleMapper.getRoleIdByUserId(id);
-        Role role=roleMapper.selectById(roleId);
+        UserRole userRole= userRoleMapper.selectById(id);
+        Role role = roleMapper.selectById(userRole.getRoleId());
         if(role != null) {
             return new CustomResponse(20000, "Login Success", role);
         } else {
