@@ -10,9 +10,6 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User>{
-
-    @Select("select * from t_user where username = #{username} And password = #{password}  limit 1")
-    public User SelectByUsernameAndPassword(String username,String password);
-
-
+//    @Select("select * from t_user where username = #{username} And password = #{password}  limit 1")
+//    public User SelectByUsernameAndPassword(String username,String password);
 }

@@ -1,16 +1,11 @@
 package com.example.wisdom;
 
-import com.example.wisdom.entity.Permission;
-import com.example.wisdom.entity.Role;
-import com.example.wisdom.entity.User;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.wisdom.entity.*;
 import com.example.wisdom.mapper.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,10 +22,10 @@ class MeterSoftwareManagementSystemApplicationTests {
     @Autowired
     private RoleMapper roleMapper;
 
-    @Test
-    public void userLogin(){
-        System.out.println(userMapper.SelectByUsernameAndPassword("111", "111"));
-    }
+//    @Test
+//    public void userLogin(){
+//        System.out.println(userMapper.SelectByUsernameAndPassword("111", "111"));
+//    }
 
     @Test
     void userrole() {
@@ -44,8 +39,8 @@ class MeterSoftwareManagementSystemApplicationTests {
 
     @Test
     public void getRoleIdByUserId() {
-        int roleId= userRoleMapper.getRoleIdByUserId(1);
-        Role role=roleMapper.selectById(roleId);
+        UserRole userRole= userRoleMapper.selectById(1);
+        Role role=roleMapper.selectById(userRole.getRoleId());
         System.out.println(role);
     }
 

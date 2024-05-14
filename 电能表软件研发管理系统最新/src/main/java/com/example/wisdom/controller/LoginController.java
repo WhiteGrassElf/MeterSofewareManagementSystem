@@ -1,5 +1,6 @@
 package com.example.wisdom.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.wisdom.entity.CustomResponse;
 import com.example.wisdom.entity.User;
 import com.example.wisdom.mapper.UserMapper;
@@ -20,7 +21,11 @@ public class LoginController {
 
     @PostMapping("/user/login")
     public CustomResponse userLogin(@RequestBody User user){
-        User userData = userMapper.SelectByUsernameAndPassword(user.getUsername(),user.getPassword());
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username",user.getUsername());
+        wrapper.eq("nickname",user.getPassword());
+        User userData = userMapper.selectOne(wrapper);
+//        User userData = userMapper.SelectByUsernameAndPassword(user.getUsername(),user.getPassword());
         if(userData != null) {
             return new CustomResponse(20000, "Login Success", userData);
         } else {
