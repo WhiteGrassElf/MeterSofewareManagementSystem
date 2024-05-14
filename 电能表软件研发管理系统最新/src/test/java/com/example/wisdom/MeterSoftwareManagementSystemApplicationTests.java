@@ -35,10 +35,11 @@ class MeterSoftwareManagementSystemApplicationTests {
     @Test
     void userrole() {
         List<Permission>permissionList=null;
-        List<Integer>permissionIdList= (List<Integer>) rolePermissionMapper.getPermissionIdByRoleId(1);
+        List<Integer>permissionIdList= (List<Integer>) rolePermissionMapper.getPermissionsIdByRoleId(1);
         for (Integer permissionId : permissionIdList) {
-            System.out.println(permissionMapper.selectById(permissionId));
+            permissionList.add(permissionMapper.selectById(permissionId));
         }
+        System.out.println(permissionList);
     }
 
     @Test
