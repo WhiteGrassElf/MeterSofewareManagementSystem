@@ -37,7 +37,7 @@ public class RolePermissionController {
     }
     @GetMapping("/role/permissionsId")
     public CustomResponse getPermissionIdByUserId(@RequestParam("roleId")int id) {
-        List<Integer>permissionIdList= (List<Integer>) rolePermissionMapper.selectById(id);
+        List<Integer>permissionIdList= (List<Integer>) rolePermissionMapper.getPermissionsIdByRoleId(id);
         if(permissionIdList != null) {
             return new CustomResponse(20000, "Login Success", permissionIdList);
         } else {

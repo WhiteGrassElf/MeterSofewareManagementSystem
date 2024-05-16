@@ -1,13 +1,12 @@
 package com.example.wisdom.controller;
 
 
-import com.example.wisdom.entity.CustomResponse;
-import com.example.wisdom.entity.Role;
-import com.example.wisdom.entity.User;
-import com.example.wisdom.entity.UserRole;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.wisdom.entity.*;
 import com.example.wisdom.mapper.RoleMapper;
 import com.example.wisdom.mapper.UserMapper;
 import com.example.wisdom.mapper.UserRoleMapper;
+import com.example.wisdom.mapper.VmUserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,8 @@ public class UserController {
     private RoleMapper roleMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
-
+    @Autowired
+    private VmUserInfoMapper vmUserInfoMapper;
     //增
     @PostMapping("user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -73,7 +73,9 @@ public class UserController {
 
     @GetMapping("/user/role")
     public CustomResponse getRoleIdByUserId(@RequestParam("userId")int id) {
-        UserRole userRole= userRoleMapper.selectById(id);
+        QueryWrapper queryWrapper = new QueryWrapper<UserRole>();
+        queryWrapper.eq("user_id", id);
+        UserRole userRole = userRoleMapper.selectOne(queryWrapper);
         Role role = roleMapper.selectById(userRole.getRoleId());
         if(role != null) {
             return new CustomResponse(20000, "Login Success", role);
@@ -82,5 +84,24 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/info")
+    public CustomResponse getUserInfo(@RequestParam("token")String token) {
+        VmUserInfo vmUserInfo = vmUserInfoMapper.selectById(token);
+        if(vmUserInfo != null) {
+            return new CustomResponse(20000, "Login Success", vmUserInfo);
+        } else {
+            return new CustomResponse(50008, "Error", null);
+        }
+    }
 
+    @GetMapping("/user/infoAll")
+    public CustomResponse getUserInfo() {
+        QueryWrapper<VmUserInfo> wrapper = new QueryWrapper<>();
+        List<VmUserInfo> vmUserInfoLister = vmUserInfoMapper.selectList(wrapper);
+        if(vmUserInfoLister != null) {
+            return new CustomResponse(20000, "Login Success", vmUserInfoLister);
+        } else {
+            return new CustomResponse(50008, "Error", null);
+        }
+    }
 }

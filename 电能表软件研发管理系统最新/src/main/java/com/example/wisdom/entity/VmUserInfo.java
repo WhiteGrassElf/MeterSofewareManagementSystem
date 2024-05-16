@@ -12,7 +12,7 @@ public class VmUserInfo {
     @TableId(value = "user_id")
     Integer userId;
     @TableField("username")
-    String userName;
+    String username;
     @TableField("password")
     String password;
     @TableField("phone")
